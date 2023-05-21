@@ -6,7 +6,7 @@
 
 #include <glib.h>
 
-#include <hbo/certman/common/slice.h>
+#include <hbo/certman/core/commons/slice.h>
 
 #ifndef HBO_CERTMAN_UTILS_FS_MAX_DIR_PATH_SIZE
 #define HBO_CERTMAN_UTILS_FS_MAX_DIR_PATH_SIZE 512

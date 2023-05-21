@@ -10,7 +10,7 @@
 #include <gtk/gtk.h>
 #include <openssl/err.h>
 
-#include <hbo/certman/utils/array.h>
+#include <hbo/certman/core/utils/array.h>
 #include <hbo/certman/utils/fs.h>
 
 #define LOG_TAG "tls/client: "

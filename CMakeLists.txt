@@ -53,8 +53,9 @@ endif()
 
 # add_compile_options(-Wall -Wextra -Wpedantic -Werror=vla)
 
+add_subdirectory(core)
+
 add_executable(${PROJECT_NAME}
-    "${CMAKE_SOURCE_DIR}/src/hbo/certman/common/slice.c"
     "${CMAKE_SOURCE_DIR}/src/hbo/certman/utils/fs.c"
     "${CMAKE_SOURCE_DIR}/src/hbo/certman/utils/regular-expr.c"
     "${CMAKE_SOURCE_DIR}/src/hbo/certman/tls/client.c"
@@ -63,12 +64,14 @@ add_executable(${PROJECT_NAME}
     "${CMAKE_SOURCE_DIR}/src/hbo/certman/main.c"
     "${HBO_CERTMAN_GRESOURCE_C}"
 )
+# add_dependencies(${PROJECT_NAME} "hbo-certificate-manager-core")
 set_source_files_properties("${HBO_CERTMAN_GRESOURCE_C}" PROPERTIES GENERATED TRUE)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     C_STANDARD 17
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/src"
+    # "$<TARGET_PROPERTY:hbo-certificate-manager-core,INTERFACE_INCLUDE_DIRECTORIES>"
     "${GTK4_INCLUDE_DIRS}"
     "${ADW1_INCLUDE_DIRS}"
     "${OPENSSL_INCLUDE_DIRS}"
@@ -79,6 +82,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
     "${OPENSSL_LIBRARY_DIRS}"
 )
 target_link_libraries(${PROJECT_NAME}
+    "hbo-certificate-manager-core"
     "${GTK4_LIBRARIES}"
     "${ADW1_LIBRARIES}"
     "${OPENSSL_LIBRARIES}"
