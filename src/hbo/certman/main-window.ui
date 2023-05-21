@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface>
+    <requires lib="gtk" version="4.0" />
+    <template class="HboCertmanMainWindow" parent="AdwApplicationWindow">
+        <property name="default-width">800</property>
+        <property name="default-height">600</property>
+        <property name="content">
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                    <object class="AdwHeaderBar">
+                        <property name="title-widget">
+                            <object class="AdwWindowTitle">
+                                <property name="title" translatable="yes">Certificate Toolbox</property>
+                            </object>
+                        </property>
+                        <child>
+                            <object class="GtkMenuButton">
+                                <!-- <property name="icon-name">application-certificate-symbolic</property> -->
+                                <property name="always-show-arrow">true</property>
+                                <property name="menu-model">menu</property>
+                                <!-- <property name="primary">true</property> -->
+                                <property name="child">
+                                    <object class="AdwButtonContent">
+                                      <property name="icon-name">application-certificate-symbolic</property>
+                                      <property name="label" translatable="yes">_Certificados</property>
+                                      <property name="use-underline">true</property>
+                                    </object>
+                                  </property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="AdwStatusPage">
+                        <property name="vexpand">true</property>
+                        <property name="title">Nenhum certificado carregado</property>
+                        <property name="description">Comece carregando uma cadeia pela barra de título</property>
+                        <property name="icon-name">application-certificate</property>
+                    </object>
+                </child>
+                <!-- TODO show some input widget so we can query the user for the server's hostname and port
+                <child>
+                    <object class="AdwPreferencesPage">
+                        <property name="title">Server</property>
+                        <child>
+                            <object class="AdwPreferencesGroup">
+                                <property name="title">Server Info</property>
+                                <property name="description">Informe os dados de conexão do servidor</property>
+                                <child>
+                                    <object class="AdwPreferencesRow">
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                -->
+                <child>
+                    <object class="GtkStatusbar" id="status_bar">
+                    </object>
+                </child>
+            </object>
+        </property>
+    </template>
+    <menu id="menu">
+        <section id="menu-certificate-section">
+            <item>
+                <attribute name="label" translatable="yes">_Load from server</attribute>
+                <attribute name="action">app.hbo-certificate-manager.certs.load-from-server</attribute>
+            </item>
+        </section>
+        <section id="menu-general-section">
+            <item>
+                <attribute name="label" translatable="yes">_Quit</attribute>
+                <attribute name="action">app.hbo-certificate-manager.quit</attribute>
+            </item>
+        </section>
+    </menu>
+</interface>
