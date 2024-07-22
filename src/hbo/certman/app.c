@@ -18,8 +18,22 @@ static void on_action_app_quit(GSimpleAction* action, GVariant* param, gpointer 
 static void on_action_app_certs_load_from_server(GSimpleAction* action, GVariant* param, gpointer app);
 
 static GActionEntry app_action_entries[] = {
-    { "hbo-certificate-manager.quit", on_action_app_quit, NULL, NULL, NULL, { 0, 0, 0 } },
-    { "hbo-certificate-manager.certs.load-from-server", on_action_app_certs_load_from_server, NULL, NULL, NULL, { 0, 0, 0 } }
+    (GActionEntry) {
+        .name = "hbo-certificate-manager.quit",
+        .activate = on_action_app_quit,
+        .parameter_type = NULL,
+        .state = NULL,
+        .change_state = NULL,
+        .padding = {0},
+    },
+    (GActionEntry) {
+        .name = "hbo-certificate-manager.certs.load-from-server",
+        .activate = on_action_app_certs_load_from_server,
+        .parameter_type = NULL,
+        .state = NULL,
+        .change_state = NULL,
+        .padding = { 0 },
+    },
 };
 
 struct _HboCertmanApp {
@@ -39,7 +53,7 @@ static void hbo_certman_app_init(HboCertmanApp* app)
     g_debug("HboCertmanApp: init");
 
     g_signal_connect(app, "activate", G_CALLBACK(on_app_activate), NULL);
-    g_signal_connect(app, "startup", G_CALLBACK(on_app_startup), NULL);
+    g_signal_connect(app, "startup",  G_CALLBACK(on_app_startup),  NULL);
 
     app_init_openssl();
 }
@@ -90,9 +104,14 @@ static void on_action_app_certs_load_from_server(GSimpleAction* action, GVariant
 
     g_info("HboCertmanApp: loading certificates from server");
 
+    //TODO get the application, then the mainwindow, then the statuspage, then present a new ui for user input
+    HboCertmanApp* hbo_app = HBO_CERTMAN_APP(app);
+
     // TODO get host/port from user
     const char* address = "www.google.com:443";
     const char* hostname = "www.google.com";
+    const char* output_ca_pem_path = "/tmp/ca.fullchain.crt";
+    const char* output_ca_jks_path = "/tmp/ca.jks";
 
     // TODO spawn a new thread for the connection and stuff and wait for it to finish
     // TODO handle reexecutions and prevent button actions while waiting for it to complete
@@ -101,7 +120,7 @@ static void on_action_app_certs_load_from_server(GSimpleAction* action, GVariant
 
     hbo_certman_tls_client_init(&tls_client);
     hbo_certman_tls_client_connect(&tls_client, address, hostname);
-    hbo_certman_tls_client_save_peer_cert_chain(&tls_client, "/tmp/ca.pem", "/tmp/ca.jks");
+    hbo_certman_tls_client_save_peer_cert_chain(&tls_client, output_ca_pem_path, output_ca_jks_path);
     
     //TODO Alert informing the user the success of the operation
 
@@ -110,8 +129,7 @@ static void on_action_app_certs_load_from_server(GSimpleAction* action, GVariant
 
 static void app_init_openssl(void)
 {
-    // NOTE deprecated since OpenSSL 3
-    // ERR_load_BIO_strings();
+    // ERR_load_BIO_strings() is deprecated since OpenSSL 3
     SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
 }

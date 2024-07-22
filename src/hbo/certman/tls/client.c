@@ -155,6 +155,7 @@ void hbo_certman_tls_client_save_peer_cert_chain(struct hbo_certman_tls_client* 
         // child process
         // keytool -import -alias foo -keystore ca.jks -file ca.pem
         //TODO bring better alias
+        //TODO check difference between execlp
         execl(keytool_path,
                 "keytool",
                 "-importcert",

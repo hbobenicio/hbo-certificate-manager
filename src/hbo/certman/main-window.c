@@ -4,6 +4,8 @@
 
 #include <openssl/ssl.h>
 
+#include <hbo/certman/core/commons/commons.h>
+
 struct _HboCertmanMainWindow {
     AdwApplicationWindow parent;
     GtkStatusbar* status_bar;
@@ -34,14 +36,16 @@ static void hbo_certman_main_window_init(HboCertmanMainWindow* self)
     gtk_widget_init_template(GTK_WIDGET(self));
     // g_signal_connect(self->menu_certificate_load_from_server_item, "activate", G_CALLBACK(on_menu_certificate_load_from_server_activate), NULL);
 
-    char openssl_version_str[64] = {0};
-    const char prefix[] = "OpenSSL Version: ";
-    strncat(openssl_version_str, prefix, sizeof(openssl_version_str));
-    strncat(openssl_version_str, OPENSSL_VERSION_STR, sizeof(openssl_version_str) - sizeof(prefix));
-
+    char status_bar_text[128] = {0};
+    snprintf(
+        status_bar_text,
+        ARRAY_SIZE(status_bar_text),
+        "OpenSSL Version: %s | Dica: defina a envvar G_MESSAGES_DEBUG=all para obter todos os logs",
+        OPENSSL_VERSION_STR
+    );
     self->status_bar_ctx = gtk_statusbar_get_context_id(self->status_bar, __FILE__);
-    gtk_statusbar_push(self->status_bar, self->status_bar_ctx, openssl_version_str);
-    
+    gtk_statusbar_push(self->status_bar, self->status_bar_ctx, status_bar_text);
+
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(self), true);
 }
 

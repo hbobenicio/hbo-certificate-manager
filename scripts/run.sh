@@ -41,6 +41,7 @@ set -eu -o pipefail
 
 export G_MESSAGES_DEBUG=all
 export GTK_DEBUG=interactive
-./build/hbo-certificate-manager
+cd build
+./hbo-certificate-manager
 
 # echo 1 | ./scripts/build.sh && G_MESSAGES_DEBUG=all GTK_DEBUG=interactive ./bin/hbo-certificate-manager

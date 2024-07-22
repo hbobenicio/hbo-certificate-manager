@@ -3,6 +3,14 @@ project(hbo-certificate-manager LANGUAGES C)
 
 option(HBO_CERTMAN_SANITIZATION "Enables/Disables sanitization" ON)
 
+# include(FetchContent)
+# FetchContent_Declare(
+#     libadwaita
+#     GIT_REPOSITORY "https://gitlab.gnome.org/GNOME/libadwaita.git"
+#     GIT_TAG        "c196ee37a2938ce6ed0bfde2b575a0013d997158"
+# )
+# FetchContent_MakeAvailable(libadwaita)
+
 # Using pkg-config to find dependencies
 find_package(PkgConfig REQUIRED)
 
@@ -21,8 +29,8 @@ pkg_check_modules(OPENSSL REQUIRED "openssl")
 find_program(GLIB_COMPILE_RESOURCES NAMES glib-compile-resources REQUIRED)
 
 # set(CMAKE_VERBOSE_MAKEFILE ON)
-set(HBO_CERTMAN_GRESOURCE_C   "${CMAKE_BINARY_DIR}/hbo-certificate-manager.gresource.c")
 set(HBO_CERTMAN_GRESOURCE_XML "${CMAKE_SOURCE_DIR}/hbo-certificate-manager.gresource.xml")
+set(HBO_CERTMAN_GRESOURCE_C   "${CMAKE_BINARY_DIR}/hbo-certificate-manager.gresource.c")
 
 add_custom_command(
     OUTPUT ${HBO_CERTMAN_GRESOURCE_C}
